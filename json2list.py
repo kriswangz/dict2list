@@ -64,3 +64,36 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# script starts here.
+if len(sys.argv) < 2:
+    print ('No action specified.')
+    sys.exit()
+
+if sys.argv[1].startswith('--'):
+    option = sys.argv[1][2:]
+    # fetch sys.argv[1] but without the first two characters
+    if option == 'version':  #当命令行参数为-- version，显示版本号
+        print ('Version 1.0')
+    elif option == 'help':  #当命令行参数为--help时，显示相关帮助内容
+        print ('''/
+This program convert json file into  list and save in txt file, 
+used in awg10g project.
+Options include:
+  --version : Prints the version number
+  --help    : Display this help''')
+    else:
+        print ('Unknown option.')
+    sys.exit()
+else:
+    file_dir_i = sys.argv[1]
+    file_dir_o = sys.argv[2]
+
+    dict = ReadDict(str(file_dir_i))
+
+    dic = dict.read_from_json(mode='r')
+    data = dict2list(dic)
+
+
+    wr_list2txt(data, str(file_dir_o), 'w+')
+        
